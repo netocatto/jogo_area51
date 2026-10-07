@@ -20,8 +20,8 @@ h1{font:800 24px "Courier New",monospace;letter-spacing:3px;color:var(--neon);te
 .ctl button.on{border-color:var(--yel);color:var(--yel)}
 .vol{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:10px;color:var(--mut);font-size:13px}
 .vol input{width:160px;accent-color:#39ff7a}
-.tabs{display:flex;gap:8px;margin-bottom:12px}
-.tabs button{flex:1;padding:12px 6px;border-radius:12px;border:2px solid var(--line);background:var(--panel);color:var(--mut);font:700 13px "Courier New",monospace;letter-spacing:1px;cursor:pointer}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.tabs button{flex:1 1 140px;padding:12px 6px;border-radius:12px;border:2px solid var(--line);background:var(--panel);color:var(--mut);font:700 13px "Courier New",monospace;letter-spacing:1px;cursor:pointer}
 .tabs button.on{border-color:var(--neon);color:var(--neon);background:#102a1a}
 .list{background:var(--panel);border:2px solid var(--line);border-radius:16px;padding:8px}
 .song{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;cursor:pointer}
@@ -51,7 +51,7 @@ h1{font:800 24px "Courier New",monospace;letter-spacing:3px;color:var(--neon);te
 </div>
 <script>
 var MP3=[
- {name:"ALIEN FM",fq:"51.9",dir:"alien",songs:[
+ {name:"ALIEN FM",fq:"51.9",dir:"alien",short:"ALIEN",songs:[
   ["01-blinding-lights.mp3","Blinding Lights — The Weeknd"],
   ["02-gangsta-s-paradise.mp3","Gangsta's Paradise — Coolio"],
   ["03-evidencias.mp3","Evidências — Chitãozinho & Xororó"],
@@ -59,7 +59,7 @@ var MP3=[
   ["05-harlem-shake.mp3","Harlem Shake — Baauer"],
   ["06-can-t-get-over.mp3","Can't Get Over — Kasino"],
   ["07-hung-up.mp3","Hung Up — Madonna"],
-  ["08-dragostea-din-tei.mp3","Dragostea Din Tei — O-Zone"],
+  ["08-dragostea-din-tei.mp3","Festa no Apê — Latino"],
   ["09-shake-it-off.mp3","Shake It Off — Taylor Swift"],
   ["10-hips-don-t-lie.mp3","Hips Don't Lie — Shakira"],
   ["11-smooth-criminal.mp3","Smooth Criminal — Michael Jackson"],
@@ -67,8 +67,13 @@ var MP3=[
   ["13-bitter-sweet-symphony.mp3","Bitter Sweet Symphony — The Verve"],
   ["14-ymca.mp3","YMCA — Village People"],
   ["15-what-is-love.mp3","What Is Love — Haddaway"],
-  ["16-whenever-wherever.mp3","Whenever, Wherever — Shakira"]]},
- {name:"NEVADA ROCK RADIO",fq:"97.5",dir:"nevada",songs:[
+  ["16-whenever-wherever.mp3","Whenever, Wherever — Shakira"],
+  ["17-happy-nation.mp3","Happy Nation — Ace of Base"],
+  ["18-sweet-dreams-are-made-of-this.mp3","Sweet Dreams (Are Made of This) — Eurythmics"],
+  ["19-don-t-you-want-me.mp3","Don't You Want Me — The Human League"],
+  ["20-barbie-girl.mp3","Barbie Girl — Aqua"],
+  ["21-tokyo-drift.mp3","Tokyo Drift — Teriyaki Boyz"]]},
+ {name:"NEVADA ROCK RADIO",fq:"97.5",dir:"nevada",short:"NEVADA",songs:[
   ["01-b-y-o-b.mp3","B.Y.O.B. — System of a Down"],
   ["02-down-under.mp3","Down Under — Men at Work"],
   ["03-hungry-like-the-wolf.mp3","Hungry Like the Wolf — Duran Duran"],
@@ -80,8 +85,17 @@ var MP3=[
   ["09-smoke-on-the-water.mp3","Smoke on the Water — Deep Purple"],
   ["10-the-final-countdown.mp3","The Final Countdown — Europe"],
   ["11-the-number-of-the-beast.mp3","The Number of the Beast — Iron Maiden"],
-  ["12-thunderstruck.mp3","Thunderstruck — AC/DC"]]},
- {name:"MARS FM",fq:"88.3",dir:"mars",songs:[
+  ["12-thunderstruck.mp3","Thunderstruck — AC/DC"],
+  ["13-sweet-child-o-mine.mp3","Sweet Child O' Mine — Guns N' Roses"],
+  ["14-welcome-to-the-jungle.mp3","Welcome to the Jungle — Guns N' Roses"],
+  ["15-eye-of-the-tiger.mp3","Eye of the Tiger — Survivor"],
+  ["16-danger-zone.mp3","Danger Zone — Kenny Loggins"],
+  ["17-du-hast.mp3","Du Hast — Rammstein"],
+  ["18-tom-sawyer.mp3","Tom Sawyer — Rush"],
+  ["19-cum-on-feel-the-noize.mp3","Cum On Feel the Noize — Quiet Riot"],
+  ["20-nothin-but-a-good-time.mp3","Nothin' But a Good Time — Poison"],
+  ["21-poison.mp3","Poison — Alice Cooper"]]},
+ {name:"MARS FM",fq:"88.3",dir:"mars",short:"MARS",songs:[
   ["01-the-fate-of-ophelia.mp3","The Fate of Ophelia — Taylor Swift"],
   ["02-abracadabra.mp3","Abracadabra — Lady Gaga"],
   ["03-bad-romance.mp3","Bad Romance — Lady Gaga"],
@@ -96,9 +110,31 @@ var MP3=[
   ["12-lambada.mp3","Lambada — Kaoma"],
   ["13-our-house.mp3","Our House — Madness"],
   ["14-pumped-up-kicks.mp3","Pumped Up Kicks — Foster the People"],
-  ["15-take-on-me.mp3","Take On Me — a-ha"]]}
+  ["15-take-on-me.mp3","Take On Me — a-ha"],
+  ["16-hey-ya.mp3","Hey Ya! — OutKast"],
+  ["17-i-want-it-that-way.mp3","I Want It That Way — Backstreet Boys"],
+  ["18-baby.mp3","Baby — Justin Bieber"],
+  ["19-all-star.mp3","All Star — Smash Mouth"]]},
+ {name:"ROSWELL 80s",fq:"19.47",dir:"roswell",short:"ROSWELL",songs:[
+  ["01-africa.mp3","Africa — Toto"],
+  ["02-careless-whisper.mp3","Careless Whisper — George Michael"],
+  ["03-dancing-queen.mp3","Dancing Queen — ABBA"],
+  ["04-ghostbusters.mp3","Ghostbusters — Ray Parker Jr."],
+  ["05-girls-just-want-to-have-fun.mp3","Girls Just Want to Have Fun — Cyndi Lauper"],
+  ["06-never-gonna-give-you-up.mp3","Never Gonna Give You Up — Rick Astley"],
+  ["07-together-forever.mp3","Together Forever — Rick Astley"],
+  ["08-party-all-the-time.mp3","Party All the Time — Eddie Murphy"],
+  ["09-stayin-alive.mp3","Stayin' Alive — Bee Gees"],
+  ["10-thriller.mp3","Thriller — Michael Jackson"],
+  ["11-another-one-bites-the-dust.mp3","Another One Bites the Dust — Queen"],
+  ["12-rock-the-casbah.mp3","Rock the Casbah — The Clash"],
+  ["13-enjoy-the-silence-outra-versao.mp3","Enjoy the Silence (outra versão) — Depeche Mode"]]},
+ {name:"ET HIGHWAY COUNTRY",fq:"37.5",dir:"country",short:"COUNTRY",songs:[
+  ["01-chattahoochee.mp3","Chattahoochee — Alan Jackson"],
+  ["02-he-thinks-i-still-care.mp3","He Thinks I Still Care — Anne Murray"],
+  ["03-achy-breaky-heart.mp3","Achy Breaky Heart — Billy Ray Cyrus"],
+  ["04-ring-of-fire.mp3","Ring of Fire — Johnny Cash"]]}
 ];
-
 var A=new Audio(),R=0,I=-1,SHUF=false,ALL=false,LOCAL={},errs=0;
 A.volume=.8;
 function $(i){return document.getElementById(i);}

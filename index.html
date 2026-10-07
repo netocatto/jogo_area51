@@ -77,7 +77,7 @@ h2{font-size:clamp(11px,2.6vw,14px);margin:0 0 14px;text-align:center;color:var(
 #hud button.off,#rbar button.off{opacity:.55;border-color:#ff4d4d!important}
 #rbar{position:fixed;left:50%;bottom:max(10px,env(safe-area-inset-bottom));transform:translateX(-50%);width:calc(100% - 20px);max-width:620px;z-index:12;background:rgba(8,14,12,.96);border:2px solid var(--line);border-radius:16px;padding:8px;box-sizing:border-box;display:none;box-shadow:0 -6px 24px rgba(0,0,0,.5)}
 #rbar.on{display:block}
-.rb-st{display:flex;gap:6px;margin-bottom:8px}.rb-st button{flex:1;padding:8px 4px;border-radius:10px;border:2px solid var(--line);background:var(--panel);color:var(--mut);font:9px "Press Start 2P",monospace;cursor:pointer}
+.rb-st{display:flex;gap:5px;margin-bottom:8px}.rb-st button{flex:1;min-width:0;padding:8px 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-radius:10px;border:2px solid var(--line);background:var(--panel);color:var(--mut);font:8px "Press Start 2P",monospace;cursor:pointer}
 .rb-st button.on{border-color:var(--neon);color:var(--neon);background:#102a1a}
 .rb-pl{display:flex;align-items:center;gap:6px}
 .rb-pl button{width:42px;height:42px;flex:0 0 42px;border-radius:10px;border:2px solid var(--line);background:var(--panel);color:#fff;font-size:17px;cursor:pointer;padding:0}
@@ -96,7 +96,7 @@ h2{font-size:clamp(11px,2.6vw,14px);margin:0 0 14px;text-align:center;color:var(
 <canvas id="c"></canvas>
 
 <div id="hud"><button id="bRadio" aria-label="Trocar rádio">📻</button><button id="bNextT" aria-label="Próxima música">⏭</button><button id="bMute" aria-label="Silenciar música">♪</button><button id="bAll" aria-label="Silenciar tudo">🔊</button><button id="bPause" aria-label="Pausar">II</button></div>
-<div id="rbar"><div id="rbHint">🔊 Toque em qualquer lugar para ligar o som</div><div class="rb-st"><button data-r="0">ALIEN FM</button><button data-r="1">NEVADA ROCK</button><button data-r="2">MARS FM</button></div><div class="rb-pl"><button id="rbPrev" aria-label="Música anterior">⏮</button><div class="rb-now"><small id="rbSt">RÁDIO</small><b id="rbT">—</b></div><button id="rbNext" aria-label="Próxima música">⏭</button><button id="rbMus" aria-label="Silenciar música">🎵</button><button id="rbAll" aria-label="Silenciar tudo">🔊</button></div></div>
+<div id="rbar"><div id="rbHint">🔊 Toque em qualquer lugar para ligar o som</div><div class="rb-st" id="rbSts"></div><div class="rb-pl"><button id="rbPrev" aria-label="Música anterior">⏮</button><div class="rb-now"><small id="rbSt">RÁDIO</small><b id="rbT">—</b></div><button id="rbNext" aria-label="Próxima música">⏭</button><button id="rbMus" aria-label="Silenciar música">🎵</button><button id="rbAll" aria-label="Silenciar tudo">🔊</button></div></div>
 <div id="ctl"><button class="cb" id="bDuck" aria-label="Abaixar"><b>▼</b><span>ABAIXAR</span></button>
 <button class="cb" id="bJump" aria-label="Pular"><b>▲</b><span>PULAR</span></button></div>
 <button id="bSp" aria-label="Especial"><i id="spFill"></i><img id="spImg" alt=""><span>ESPECIAL</span></button>
@@ -630,7 +630,7 @@ function synNext(){MUS.r=(MUS.r+1)%RADIOS.length;MUS.s=Math.floor(Math.random()*
 
 /* ---------- RÁDIOS COM MP3 (pasta Musicas/). Se os arquivos não carregarem, usa as trilhas sintetizadas ---------- */
 var MP3=[
- {name:"ALIEN FM",fq:"51.9",dir:"alien",songs:[
+ {name:"ALIEN FM",fq:"51.9",dir:"alien",short:"ALIEN",songs:[
   ["01-blinding-lights.mp3","Blinding Lights — The Weeknd"],
   ["02-gangsta-s-paradise.mp3","Gangsta's Paradise — Coolio"],
   ["03-evidencias.mp3","Evidências — Chitãozinho & Xororó"],
@@ -638,7 +638,7 @@ var MP3=[
   ["05-harlem-shake.mp3","Harlem Shake — Baauer"],
   ["06-can-t-get-over.mp3","Can't Get Over — Kasino"],
   ["07-hung-up.mp3","Hung Up — Madonna"],
-  ["08-dragostea-din-tei.mp3","Dragostea Din Tei — O-Zone"],
+  ["08-dragostea-din-tei.mp3","Festa no Apê — Latino"],
   ["09-shake-it-off.mp3","Shake It Off — Taylor Swift"],
   ["10-hips-don-t-lie.mp3","Hips Don't Lie — Shakira"],
   ["11-smooth-criminal.mp3","Smooth Criminal — Michael Jackson"],
@@ -646,8 +646,13 @@ var MP3=[
   ["13-bitter-sweet-symphony.mp3","Bitter Sweet Symphony — The Verve"],
   ["14-ymca.mp3","YMCA — Village People"],
   ["15-what-is-love.mp3","What Is Love — Haddaway"],
-  ["16-whenever-wherever.mp3","Whenever, Wherever — Shakira"]]},
- {name:"NEVADA ROCK RADIO",fq:"97.5",dir:"nevada",songs:[
+  ["16-whenever-wherever.mp3","Whenever, Wherever — Shakira"],
+  ["17-happy-nation.mp3","Happy Nation — Ace of Base"],
+  ["18-sweet-dreams-are-made-of-this.mp3","Sweet Dreams (Are Made of This) — Eurythmics"],
+  ["19-don-t-you-want-me.mp3","Don't You Want Me — The Human League"],
+  ["20-barbie-girl.mp3","Barbie Girl — Aqua"],
+  ["21-tokyo-drift.mp3","Tokyo Drift — Teriyaki Boyz"]]},
+ {name:"NEVADA ROCK RADIO",fq:"97.5",dir:"nevada",short:"NEVADA",songs:[
   ["01-b-y-o-b.mp3","B.Y.O.B. — System of a Down"],
   ["02-down-under.mp3","Down Under — Men at Work"],
   ["03-hungry-like-the-wolf.mp3","Hungry Like the Wolf — Duran Duran"],
@@ -659,8 +664,17 @@ var MP3=[
   ["09-smoke-on-the-water.mp3","Smoke on the Water — Deep Purple"],
   ["10-the-final-countdown.mp3","The Final Countdown — Europe"],
   ["11-the-number-of-the-beast.mp3","The Number of the Beast — Iron Maiden"],
-  ["12-thunderstruck.mp3","Thunderstruck — AC/DC"]]},
- {name:"MARS FM",fq:"88.3",dir:"mars",songs:[
+  ["12-thunderstruck.mp3","Thunderstruck — AC/DC"],
+  ["13-sweet-child-o-mine.mp3","Sweet Child O' Mine — Guns N' Roses"],
+  ["14-welcome-to-the-jungle.mp3","Welcome to the Jungle — Guns N' Roses"],
+  ["15-eye-of-the-tiger.mp3","Eye of the Tiger — Survivor"],
+  ["16-danger-zone.mp3","Danger Zone — Kenny Loggins"],
+  ["17-du-hast.mp3","Du Hast — Rammstein"],
+  ["18-tom-sawyer.mp3","Tom Sawyer — Rush"],
+  ["19-cum-on-feel-the-noize.mp3","Cum On Feel the Noize — Quiet Riot"],
+  ["20-nothin-but-a-good-time.mp3","Nothin' But a Good Time — Poison"],
+  ["21-poison.mp3","Poison — Alice Cooper"]]},
+ {name:"MARS FM",fq:"88.3",dir:"mars",short:"MARS",songs:[
   ["01-the-fate-of-ophelia.mp3","The Fate of Ophelia — Taylor Swift"],
   ["02-abracadabra.mp3","Abracadabra — Lady Gaga"],
   ["03-bad-romance.mp3","Bad Romance — Lady Gaga"],
@@ -675,7 +689,30 @@ var MP3=[
   ["12-lambada.mp3","Lambada — Kaoma"],
   ["13-our-house.mp3","Our House — Madness"],
   ["14-pumped-up-kicks.mp3","Pumped Up Kicks — Foster the People"],
-  ["15-take-on-me.mp3","Take On Me — a-ha"]]}
+  ["15-take-on-me.mp3","Take On Me — a-ha"],
+  ["16-hey-ya.mp3","Hey Ya! — OutKast"],
+  ["17-i-want-it-that-way.mp3","I Want It That Way — Backstreet Boys"],
+  ["18-baby.mp3","Baby — Justin Bieber"],
+  ["19-all-star.mp3","All Star — Smash Mouth"]]},
+ {name:"ROSWELL 80s",fq:"19.47",dir:"roswell",short:"ROSWELL",songs:[
+  ["01-africa.mp3","Africa — Toto"],
+  ["02-careless-whisper.mp3","Careless Whisper — George Michael"],
+  ["03-dancing-queen.mp3","Dancing Queen — ABBA"],
+  ["04-ghostbusters.mp3","Ghostbusters — Ray Parker Jr."],
+  ["05-girls-just-want-to-have-fun.mp3","Girls Just Want to Have Fun — Cyndi Lauper"],
+  ["06-never-gonna-give-you-up.mp3","Never Gonna Give You Up — Rick Astley"],
+  ["07-together-forever.mp3","Together Forever — Rick Astley"],
+  ["08-party-all-the-time.mp3","Party All the Time — Eddie Murphy"],
+  ["09-stayin-alive.mp3","Stayin' Alive — Bee Gees"],
+  ["10-thriller.mp3","Thriller — Michael Jackson"],
+  ["11-another-one-bites-the-dust.mp3","Another One Bites the Dust — Queen"],
+  ["12-rock-the-casbah.mp3","Rock the Casbah — The Clash"],
+  ["13-enjoy-the-silence-outra-versao.mp3","Enjoy the Silence (outra versão) — Depeche Mode"]]},
+ {name:"ET HIGHWAY COUNTRY",fq:"37.5",dir:"country",short:"COUNTRY",songs:[
+  ["01-chattahoochee.mp3","Chattahoochee — Alan Jackson"],
+  ["02-he-thinks-i-still-care.mp3","He Thinks I Still Care — Anne Murray"],
+  ["03-achy-breaky-heart.mp3","Achy Breaky Heart — Billy Ray Cyrus"],
+  ["04-ring-of-fire.mp3","Ring of Fire — Johnny Cash"]]}
 ];
 var AUD=null,MP={on:true,r:0,order:[],k:0,errs:0,timer:null,want:false};
 function mp3URL(r,f){return 'musicas/'+MP3[r].dir+'/'+f;}
@@ -711,7 +748,7 @@ function setRadio(r){if(MP.on){audInit();MP.r=r;mpShuffle();mpPlay();}
 function nextTrack(dir){if(MP.on){if(!MP.booted){bootMusic();return;}MP.k=(MP.k+dir+MP.order.length)%MP.order.length;mpPlay();}
   else{if(!MUS.timer){bootMusic();return;}var n=RADIOS[MUS.r].songs.length;MUS.s=(MUS.s+dir+n)%n;MUS.step=0;if(AC)MUS.next=AC.currentTime+0.06;synAnnounce();}
   radioUI();}
-function nextRadio(){setRadio((curRadio()+1)%3);SFX.tick();}
+function nextRadio(){setRadio((curRadio()+1)%radioNames().length);SFX.tick();}
 function pickRadio(){bootMusic();}
 function musStart(){bootMusic();if(MP.on)mpAnnounce();else synAnnounce();}
 function setMusMute(v){MM=v;store('a51_mmute',MM?'1':'0');if(AUD)AUD.muted=musMuted();radioUI();}
@@ -719,7 +756,10 @@ function setAllMute(v){muted=v;store('a51_mute',muted?'1':'0');if(AUD)AUD.muted=
 function radioUI(){var R=radioNames()[curRadio()];if(!R)return;
   var st=document.getElementById('rbSt'),t=document.getElementById('rbT');if(!st)return;
   st.textContent=R.name+' '+R.fq;t.textContent=curTitle();
-  Array.prototype.forEach.call(document.querySelectorAll('#rbar [data-r]'),function(b){b.className=+b.getAttribute('data-r')===curRadio()?'on':'';});
+  var box=document.getElementById('rbSts'),L=radioNames();
+  if(box.children.length!==L.length){box.innerHTML='';L.forEach(function(x,i){var b=document.createElement('button');b.setAttribute('data-r',i);
+    b.textContent=x.short||x.name.split(' ')[0];b.onclick=function(){setRadio(i);};box.appendChild(b);});}
+  Array.prototype.forEach.call(box.children,function(b){b.className=+b.getAttribute('data-r')===curRadio()?'on':'';});
   $('rbMus').className=MM?'off':'';$('rbMus').textContent=MM?'🎵✕':'🎵';$('rbAll').className=muted?'off':'';$('rbAll').textContent=muted?'🔇':'🔊';
   $('bMute').textContent=MM?'♪✕':'♪';$('bMute').className=MM?'off':'';$('bAll').textContent=muted?'🔇':'🔊';$('bAll').className=muted?'off':'';
   var hint=document.getElementById('rbHint');if(hint)hint.style.display=musicOn()||musMuted()?'none':'block';}
@@ -804,7 +844,7 @@ $('bNextT').onclick=function(e){e.stopPropagation();nextTrack(1);SFX.tick();};
 $('bAll').onclick=function(e){e.stopPropagation();setAllMute(!muted);initAudio();};
 $('rbPrev').onclick=function(){nextTrack(-1);};$('rbNext').onclick=function(){nextTrack(1);};
 $('rbMus').onclick=function(){setMusMute(!MM);};$('rbAll').onclick=function(){setAllMute(!muted);};
-Array.prototype.forEach.call(document.querySelectorAll('#rbar [data-r]'),function(b){b.onclick=function(){setRadio(+b.getAttribute('data-r'));};});
+
 ['pointerdown','touchstart','touchend','click','keydown'].forEach(function(ev){document.addEventListener(ev,function(){if(!musicOn()&&!musMuted())bootMusic();},true);});
 $('bPause').onclick=function(e){e.stopPropagation();pause();};
 $('bMute').onclick=function(e){e.stopPropagation();setMusMute(!MM);};
