@@ -149,22 +149,22 @@ h2{font-size:clamp(11px,2.6vw,14px);margin:0 0 14px;text-align:center;color:var(
 'use strict';
 /* ===== PIXEL ART EM ALTA (gerado em tempo real) ===== */
 var CHARS=[
- {id:'fachim',tag:'Sobreviveu a Las Vegas',name:'Fachim',sp:'dinheiro',
+ {id:'fachim',tag:'',name:'Fachim',sp:'dinheiro',
   skin:'#f1c9a5',skin2:'#d9a582',hair:'#5a3a22',hair2:'#86603c',hs:'quiff',beard:'#3b2618',glasses:true,mouth:'smile',eye:'#4a3626',
   top:'denim',c1:'#6d98c9',c2:'#4f78a6',c3:'#efe6d2',pants:'#a9c7e4',pants2:'#86a8cb',shoes:'#5a4434'},
- {id:'pedro',tag:'Pedro Play',name:'Pedro',sp:'computador',
+ {id:'pedro',tag:'',name:'Pedro',sp:'computador',
   skin:'#f3d0b2',skin2:'#dcae8c',hair:'#4b2f1e',hair2:'#74503a',hs:'swept',goatee:'#8a5c3c',mouth:'grin',eye:'#4a3626',
   top:'suit',c1:'#20263a',c2:'#151a28',c3:'#f4f4f4',tie:'#b9b9c2',pants:'#20263a',pants2:'#151a28',shoes:'#0e0e12'},
- {id:'ste',tag:'Máquina de triturar dinheiro do Pedro',name:'Sté',sp:'odio',
+ {id:'ste',tag:'',name:'Sté',sp:'odio',
   skin:'#f1cdb2',skin2:'#dcab8e',hair:'#17121a',hair2:'#3e3044',hs:'bun',lips:'#c56577',lips2:'#9e4a5a',blush:true,lashes:true,mouth:'lips',eye:'#3a2618',
   top:'dress',c1:'#9b6ba8',c2:'#7c5089',c3:'#c4a0cf',pants:'#9b6ba8',pants2:'#7c5089',shoes:'#d8c89a',bag:'#ece4cc'},
- {id:'rapha',tag:'Delicada, até que se prove o contrário.',name:'Rapha',sp:'gatinhos',
+ {id:'rapha',tag:'',name:'Rapha',sp:'gatinhos',
   skin:'#f7d9c7',skin2:'#e3b9a2',hair:'#e2c285',hair2:'#f7e6bc',brow:'#a8834e',hs:'longb',lips:'#c92f3c',lips2:'#951c28',liner:true,blush:true,mouth:'lips',eye:'#5a4a30',
   top:'top',c1:'#25252d',c2:'#16161c',c3:'#f7d9c7',pants:'#4a5f88',pants2:'#3a4c70',shoes:'#f0f0f0'},
- {id:'tay',tag:'Esposa do Lucha',name:'Tay',sp:'tiro',
+ {id:'tay',tag:'',name:'Tay',sp:'tiro',
   skin:'#efc6a6',skin2:'#d7a585',hair:'#3a2418',hair2:'#634030',hs:'long',blush:true,lashes:true,mouth:'smile',eye:'#3a2618',
   top:'moto',c1:'#1d1d22',c2:'#111114',c3:'#a4a4ae',strap:'#8a5a33',pants:'#1d1d22',pants2:'#111114',shoes:'#0e0e12'},
- {id:'lucha',tag:'Marido da Tay',name:'Lucha',sp:'hamburguer',
+ {id:'lucha',tag:'',name:'Lucha',sp:'hamburguer',
   skin:'#f1c6a4',skin2:'#d8a684',hair:'#4a2e1c',hair2:'#70492f',hs:'short',mouth:'smile',round:true,eye:'#3a2618',
   top:'zip',c1:'#232935',c2:'#171b23',c3:'#6b7280',pants:'#23262c',pants2:'#18191d',shoes:'#0e0e12'},
  {id:'thomaz',tag:'Terror dos Camo Dudes',name:'Thomaz',sp:'pt',
@@ -779,7 +779,7 @@ function bestKey(){return 'a51_best_'+DIF.id;}
 function buildSel(){
   var g=$('grid');g.innerHTML='';
   CHARS.forEach(function(c){var el=document.createElement('div');el.className='card';
-    el.innerHTML='<img class="spr" data-id="'+c.id+'" src="'+URL[c.id].idle+'" alt="'+c.name+'"><b class="px">'+c.name+'</b><span>'+c.tag+'</span>';
+    el.innerHTML='<img class="spr" data-id="'+c.id+'" src="'+URL[c.id].idle+'" alt="'+c.name+'"><b class="px">'+c.name+'</b>'+(c.tag?'<span>'+c.tag+'</span>':'');
     el.onclick=function(){initAudio();CH_SEL=c;SP_SEL=spById(c.sp);buildEsp();show('sEsp');SFX.tick();};g.appendChild(el);});
 }
 function buildEsp(){
