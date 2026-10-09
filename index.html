@@ -650,7 +650,8 @@ var MP3=[
   ["18-sweet-dreams-are-made-of-this.mp3","Sweet Dreams (Are Made of This) — Eurythmics"],
   ["19-don-t-you-want-me.mp3","Don't You Want Me — The Human League"],
   ["20-barbie-girl.mp3","Barbie Girl — Aqua"],
-  ["21-tokyo-drift.mp3","Tokyo Drift — Teriyaki Boyz"]]},
+  ["21-tokyo-drift.mp3","Tokyo Drift — Teriyaki Boyz"],
+  ["22-gta-san-andreas.mp3","GTA San Andreas (tema) — Michael Hunter"]]},
  {name:"NEVADA ROCK RADIO",fq:"97.5",dir:"nevada",short:"NEVADA",songs:[
   ["01-b-y-o-b.mp3","B.Y.O.B. — System of a Down"],
   ["02-down-under.mp3","Down Under — Men at Work"],
@@ -677,7 +678,11 @@ var MP3=[
   ["23-crazy-train.mp3","Crazy Train — Ozzy Osbourne"],
   ["24-da-ya-think-i-m-sexy.mp3","Da Ya Think I'm Sexy? — Rod Stewart"],
   ["25-rock-and-roll-all-nite.mp3","Rock and Roll All Nite — KISS"],
-  ["26-rock-you-like-a-hurricane.mp3","Rock You Like a Hurricane — Scorpions"]]},
+  ["26-rock-you-like-a-hurricane.mp3","Rock You Like a Hurricane — Scorpions"],
+  ["27-ziggy-stardust.mp3","Ziggy Stardust — David Bowie"],
+  ["28-white-wedding.mp3","White Wedding — Billy Idol"],
+  ["29-all-the-small-things.mp3","All the Small Things — blink-182"],
+  ["30-learn-to-fly.mp3","Learn to Fly — Foo Fighters"]]},
  {name:"MARS FM",fq:"88.3",dir:"mars",short:"MARS",songs:[
   ["01-the-fate-of-ophelia.mp3","The Fate of Ophelia — Taylor Swift"],
   ["02-abracadabra.mp3","Abracadabra — Lady Gaga"],
@@ -697,7 +702,10 @@ var MP3=[
   ["16-hey-ya.mp3","Hey Ya! — OutKast"],
   ["17-i-want-it-that-way.mp3","I Want It That Way — Backstreet Boys"],
   ["18-baby.mp3","Baby — Justin Bieber"],
-  ["19-all-star.mp3","All Star — Smash Mouth"]]},
+  ["19-all-star.mp3","All Star — Smash Mouth"],
+  ["20-apt.mp3","APT. — ROSÉ & Bruno Mars"],
+  ["21-locked-out-of-heaven.mp3","Locked Out of Heaven — Bruno Mars"],
+  ["22-uptown-funk.mp3","Uptown Funk — Mark Ronson ft. Bruno Mars"]]},
  {name:"MOON ELETROHITS",fq:"99.9",dir:"moon",short:"MOON",songs:[
   ["01-mr-saxobeat.mp3","Mr. Saxobeat — Alexandra Stan"],
   ["02-axel-f.mp3","Axel F — Crazy Frog"],
@@ -721,12 +729,23 @@ var MP3=[
   ["10-thriller.mp3","Thriller — Michael Jackson"],
   ["11-another-one-bites-the-dust.mp3","Another One Bites the Dust — Queen"],
   ["12-rock-the-casbah.mp3","Rock the Casbah — The Clash"],
-  ["13-enjoy-the-silence-outra-versao.mp3","Enjoy the Silence (outra versão) — Depeche Mode"]]},
+  ["13-enjoy-the-silence-outra-versao.mp3","Enjoy the Silence (outra versão) — Depeche Mode"],
+  ["14-gimme-gimme-gimme.mp3","Gimme! Gimme! Gimme! — ABBA"],
+  ["15-club-tropicana.mp3","Club Tropicana — Wham!"],
+  ["16-i-ran.mp3","I Ran — A Flock of Seagulls"],
+  ["17-tarzan-boy.mp3","Tarzan Boy — Baltimora"],
+  ["18-holding-out-for-a-hero.mp3","Holding Out for a Hero — Bonnie Tyler"],
+  ["19-total-eclipse-of-the-heart.mp3","Total Eclipse of the Heart — Bonnie Tyler"],
+  ["20-celebration.mp3","Celebration — Kool & The Gang"],
+  ["21-la-isla-bonita.mp3","La Isla Bonita — Madonna"],
+  ["22-maniac.mp3","Maniac — Michael Sembello"],
+  ["23-wake-me-up-before-you-go-go.mp3","Wake Me Up Before You Go-Go — Wham!"]]},
  {name:"ET HIGHWAY COUNTRY",fq:"37.5",dir:"country",short:"COUNTRY",songs:[
   ["01-chattahoochee.mp3","Chattahoochee — Alan Jackson"],
   ["02-he-thinks-i-still-care.mp3","He Thinks I Still Care — Anne Murray"],
   ["03-achy-breaky-heart.mp3","Achy Breaky Heart — Billy Ray Cyrus"],
-  ["04-ring-of-fire.mp3","Ring of Fire — Johnny Cash"]]}
+  ["04-ring-of-fire.mp3","Ring of Fire — Johnny Cash"],
+  ["05-love-is-a-long-road.mp3","Love Is a Long Road — Tom Petty"]]}
 ];
 var AUD=null,MP={on:true,r:0,order:[],k:0,errs:0,timer:null,want:false};
 function mp3URL(r,f){return 'musicas/'+MP3[r].dir+'/'+f;}
@@ -750,23 +769,33 @@ function mpResume(){if(MP.on&&AUD&&AUD.paused&&AUD.src){var pr=AUD.play();if(pr&
 /* ---------- controle único das rádios (MP3 ou sintetizado) ---------- */
 function radioNames(){return (MP.on?MP3:RADIOS).map(function(R){return R;});}
 function curRadio(){return MP.on?MP.r:MUS.r;}
-function curTitle(){if(MP.on)return MP.booted?mpCur()[1]:'—';return MUS.timer?song().t:'—';}
+function curTitle(){if(VIC.on)return '♪ Tema da Vitória';if(MP.on)return MP.booted?mpCur()[1]:'—';return MUS.timer?song().t:'—';}
 function musicOn(){return MP.on?!!(AUD&&AUD.src&&!AUD.paused):!!MUS.timer;}
-function bootMusic(){initAudio();
+/* ---------- tema da vitória (toca quando o jogador chega na base) ---------- */
+var VIC={a:null,on:false};
+function vicPlay(){if(musMuted())return;
+  if(!VIC.a){VIC.a=new Audio('musicas/vitoria.mp3');VIC.a.preload='auto';VIC.a.addEventListener('ended',vicEnd);VIC.a.addEventListener('error',vicEnd);}
+  if(AUD){try{AUD.pause();}catch(e){}}
+  if(MUS.timer){clearInterval(MUS.timer);MUS.timer=null;}
+  VIC.on=true;VIC.a.muted=false;VIC.a.volume=0.8;try{VIC.a.currentTime=0;}catch(e){}
+  var pr=VIC.a.play();if(pr&&pr.catch)pr.catch(function(){vicEnd();});radioUI();}
+function vicStop(){VIC.on=false;if(VIC.a){try{VIC.a.pause();}catch(e){}}}
+function vicEnd(){if(!VIC.on)return;VIC.on=false;bootMusic();}
+function bootMusic(){if(VIC.on)return;initAudio();
   if(MP.on){audInit();if(!MP.booted){MP.r=Math.floor(Math.random()*MP3.length);mpShuffle();mpPlay();}else mpResume();}
   else if(!MUS.timer){synPick();synStart();}
   radioUI();}
-function setRadio(r){if(MP.on){audInit();MP.r=r;mpShuffle();mpPlay();}
+function setRadio(r){vicStop();if(MP.on){audInit();MP.r=r;mpShuffle();mpPlay();}
   else{initAudio();if(!MUS.timer){synPick();synStart();}MUS.r=r;MUS.s=0;MUS.step=0;if(AC)MUS.next=AC.currentTime+0.06;synAnnounce();}
   radioUI();}
-function nextTrack(dir){if(MP.on){if(!MP.booted){bootMusic();return;}MP.k=(MP.k+dir+MP.order.length)%MP.order.length;mpPlay();}
+function nextTrack(dir){vicStop();if(MP.on){if(!MP.booted){bootMusic();return;}MP.k=(MP.k+dir+MP.order.length)%MP.order.length;mpPlay();}
   else{if(!MUS.timer){bootMusic();return;}var n=RADIOS[MUS.r].songs.length;MUS.s=(MUS.s+dir+n)%n;MUS.step=0;if(AC)MUS.next=AC.currentTime+0.06;synAnnounce();}
   radioUI();}
 function nextRadio(){setRadio((curRadio()+1)%radioNames().length);SFX.tick();}
-function pickRadio(){bootMusic();}
-function musStart(){bootMusic();if(MP.on)mpAnnounce();else synAnnounce();}
-function setMusMute(v){MM=v;store('a51_mmute',MM?'1':'0');if(AUD)AUD.muted=musMuted();radioUI();}
-function setAllMute(v){muted=v;store('a51_mute',muted?'1':'0');if(AUD)AUD.muted=musMuted();radioUI();}
+function pickRadio(){vicStop();bootMusic();}
+function musStart(){vicStop();bootMusic();if(MP.on)mpAnnounce();else synAnnounce();}
+function setMusMute(v){MM=v;if(VIC.a)VIC.a.muted=musMuted();store('a51_mmute',MM?'1':'0');if(AUD)AUD.muted=musMuted();radioUI();}
+function setAllMute(v){muted=v;if(VIC.a)VIC.a.muted=musMuted();store('a51_mute',muted?'1':'0');if(AUD)AUD.muted=musMuted();radioUI();}
 function radioUI(){var R=radioNames()[curRadio()];if(!R)return;
   var st=document.getElementById('rbSt'),t=document.getElementById('rbT');if(!st)return;
   st.textContent=R.name+' '+R.fq;t.textContent=curTitle();
@@ -1076,7 +1105,7 @@ function update(dt){
   }
   G.score=Math.floor(G.dist/10)+G.docs*50+G.bonus;
   // chegada
-  if(G.base&&G.base.x<=P.x+30){G.state='outro';G.outro=0;$('hud').className='';}
+  if(G.base&&G.base.x<=P.x+30){G.state='outro';G.outro=0;$('hud').className='';vicPlay();}
 }
 function scroll(dx){
   G.dist+=dx;G.gx=(G.gx+dx)%40;G.bg1+=dx*0.06;G.bg2+=dx*0.2;
@@ -1260,7 +1289,7 @@ function frame(ts){
 buildSel();
 $('rbar').className='on';try{bootMusic();}catch(e){}radioUI();setInterval(radioUI,1000);
 requestAnimationFrame(frame);
-window.__A51={mp:function(){return {on:MP.on,r:MP.r,cur:MP.on?mpCur()[1]:'',src:AUD&&AUD.src,paused:AUD&&AUD.paused,t:AUD&&AUD.currentTime,rate:AUD&&AUD.playbackRate};},mpSet:function(r,i){MP.r=r;mpShuffle();MP.order=[i];MP.k=0;mpPlay();},P:function(){return G.pl;},charge:function(){G.en=1;},G:function(){return G;},god:function(v){G.god=v;},skip:function(s){G.t+=s;G.dist+=s*G.speed;}};
+window.__A51={vic:function(){return {on:VIC.on,src:VIC.a&&VIC.a.src,paused:VIC.a?VIC.a.paused:null,t:VIC.a?VIC.a.currentTime:0,d:VIC.a?VIC.a.duration:0,aud:AUD?AUD.paused:null,title:curTitle()};},mp:function(){return {on:MP.on,r:MP.r,cur:MP.on?mpCur()[1]:'',src:AUD&&AUD.src,paused:AUD&&AUD.paused,t:AUD&&AUD.currentTime,rate:AUD&&AUD.playbackRate};},mpSet:function(r,i){MP.r=r;mpShuffle();MP.order=[i];MP.k=0;mpPlay();},P:function(){return G.pl;},charge:function(){G.en=1;},G:function(){return G;},god:function(v){G.god=v;},skip:function(s){G.t+=s;G.dist+=s*G.speed;}};
 })();
 </script>
 </body>
